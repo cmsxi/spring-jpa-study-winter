@@ -1,2 +1,2 @@
-# spring-jpa-study-winter
+# spring-jpa-study
 Spring JPA 공부
