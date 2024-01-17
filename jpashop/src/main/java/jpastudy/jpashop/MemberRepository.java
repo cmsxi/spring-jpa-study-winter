@@ -2,6 +2,7 @@ package jpastudy.jpashop;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jpastudy.jpashop.domain.Member;
 import org.springframework.stereotype.Repository;
 
 @Repository //컴포넌트 스캔의 대상이 되어 자동으로 스프링 빈에 등록
