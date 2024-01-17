@@ -84,3 +84,54 @@ java -jar jpashop-0.0.1-SNAPSHOT.jar //실행시키면 인텔리제이에서가 
 ```
 
 
+==2024.01.16. ~ 2024.01.17.==
+#### 매핑 중에서 연관관계 주인 정하기
+Entity에서 
+Member는 Orders를 List로 가지고 있음
+Orders도 Member를 가지고 있음
+=> 양뱡향 참조
+
+Database에서 
+foreign key는 Orders 테이블에서만 가지고 있음
+외래 키 하나로 연관 관계를 조성함
+=> JPA는 존재하는 두 객체 연관관계 중 하나를 정해서 테이블의 외래키를 관리해야함 
+==> 연관관계의 주인(Owner)
+
+##### 연관관계의 주인 - 조금 더 이해해보기
+
+테이블에서 외래 키가 있는 곳이 연관관계의 주인이다.
+다대일 일대다 관계에서는 '다'쪽이 연관관계의 주인이 된다.
+주인이 아닌 쪽에서는 읽기만 가능하고
+주인인 쪽은 외래 키를 관리(등록, 수정, 삭제) 할 수 있다.
+
+@ManyToOne이 외래 키를 가지므로
+@ManyToOne에는 mappedBy를 설정할 수 없다.
+
+
+
+##### 상속 전략
+![image](https://github.com/cmsxi/spring-jpa-study-winter/assets/133588297/7bc81b2c-c6eb-476a-b02f-bd9207452c03)
+
+- JOINED: 가장 정규화된 스타일
+- SINGLE_TABLE: 한 테이블에 모든 계층 다 둠
+- ![image](https://github.com/cmsxi/spring-jpa-study-winter/assets/133588297/caf05b61-c471-4878-8a4e-d931493234bb)
+
+
+- TABLE_PRE_CLASS: BOOK, MOVIE, ALBUM 만 한 계층에? 같은 계층에 있는 클래스만 한 테이블에? 하는 거인듯??  => 다시 보기
+
+------------
+
+@DiscriminatorColumn = "dtype(변수 이름 예시임)"
+: 상속 전략이 싱글테이블일 경우 각 테이블을 구별해주는 dtype을 정의해줄 수 있다
+즉, 각 클래스에서 정의해준  DiscriminatorValue에 따라서 상속한 클래스로 구별해줄 수 있다
+
+@DiscriminatorValue("(구분 문자 지정하면 됨)")
+
+----------
+
+@OneToOne
+일대일 관계에서는 외래키를 어느 쪽에 둬도 무방함.
+Access를 많이하는 쪽에 외래키를 두자.
+
+Order와 Delivery 엔티티가 존재한다고 예시를 들었을 때 
+배송을 직접 조회하는 경우보다 주문을 조회하는 경우가 많으므로 외래키를 주문에 두는 것을 선호해보자
