@@ -22,7 +22,6 @@ public abstract class Item {
     private int price;
     private int stockQuantity; // 재고 수량
 
-    @ManyToMany // 다대다는 실무에서 안쓴다
-
+    @ManyToMany(mappedBy = "items") // 다대다는 실무에서 안쓴다
     private List<Category> categories = new ArrayList<>();
 }

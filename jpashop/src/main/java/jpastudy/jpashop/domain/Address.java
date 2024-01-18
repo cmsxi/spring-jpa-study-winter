@@ -16,4 +16,14 @@ public class Address {
     private String street;
     private String zipcode;
 
+    protected Address() {
+    }
+    // jpa가 생성할 때 reflection, proxy 기술을 써야하는 경우가 많은데 기본 생성자가 없으면 그런 걸 못함
+    // 따라서 사람들이 쉽게 호출할 수 없도록 public이 아닌 protected로 기본 생성자 만들어 줌
+
+    public Address(String city, String street, String zipcode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+    }
 }
