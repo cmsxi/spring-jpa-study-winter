@@ -150,3 +150,38 @@ Order와 Delivery 엔티티가 존재한다고 예시를 들었을 때
 - 연관도니 엔티티를 함께 조회해야할 경우 fetch join이나 엔티티 그래프를 사용하자
 - XToOne 기본값이 즉시 로딩이므로 직접 지연로딩 설정을 하자(OneToMany는 LAZY)
 
+
+
+----------------------
+#### Repository 설계
+
+@Repository : 컴포넌트 스캔의 대상. 들어가보면 @Component가 있음. 스프링 빈에 등록이 됨
+@PersistenceContext: 이게 있으면 JPA 엔티티 매니저를 알아서 주입해줌. 스프링이 알아서 해주는 기능 중 하나
+@PersistenceUnit: 엔티티매니저 팩토리를 직접 주입해줄 수 있는 기능
+##### save(aaa)
+em.persist(aaa)
+
+##### findOne(bbb)
+return em.find(bbb.class, id);
+
+##### findAll()
+```
+public List<Member> findAll(){  
+    return em.createQuery("select m from Member m", Member.class)  
+            .getResultList(); // member를 리스트로 만들어 줌  
+}
+```
+em.createQuery(JPQL문 작성, 반환 타입);
+- JPQL : 객체지향 쿼리 언어. SQL과 비슷하지만 SQL은 테이블을 대상으로 쿼리를 한다면 JPQL은 엔티티 객체에 대해 쿼리를 한다
+	- SQL을 추상화해서 특정 데이터베이스 SQL에 의존하지 않음
+	- 결국 SQL로 변환됨
+
+##### findByName()
+```
+return em.createQuery("select m from Member m where m.name = :name", Member.class)  
+        .setParameter("name", name)  
+        .getResultList();
+```
+이름을 통하여 멤버를 찾으므로 where 문이 들어감. 이름에 의한 회원 조회
+
+
