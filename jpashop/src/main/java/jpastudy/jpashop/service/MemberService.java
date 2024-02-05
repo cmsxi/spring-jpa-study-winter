@@ -2,6 +2,8 @@ package jpastudy.jpashop.service;
 
 import jpastudy.jpashop.domain.Member;
 import jpastudy.jpashop.repository.MemberRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true) // 스프링이 제공하는 트랜젝션 쓰는게 쓸 수 있는게 많아서 사용 권장
-
+// @RequiredArgsConstructor: @AllArgsConstructor와 비슷하지만 final 있는 필드로만 생성자 만들어 줌
 // JPA 동작은 트랜젠션 안에서 동작되어야됨(데이터 변경 같은거)
 public class MemberService {
 
@@ -31,6 +33,7 @@ public class MemberService {
 //    // 단점: (치명적) 한번 runtime에 누군가가 이걸 바꿀 수 있음. 애플리케이션 동작을 잘하고 있을 때는 바꿀 일이 없다.
 
     // 3. 생성자 injection
+    //@AllArgsConstructor 로 (바깥에 적어야함) 만들어줄 수도 있음
     private final MemberRepository memberRepository; // 변경할 일이 없으므로 final로 설정! 컴파일 시점에 체크해줄 수 있으므로
 
     @Autowired

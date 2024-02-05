@@ -3,20 +3,34 @@ package jpastudy.jpashop.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jpastudy.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository // 스프링 빈으로 등록. JPA 예외를 스프링 기반 예외로 등록
-//컴포넌트 스캔의 대상이 되어 자동으로 스프링 빈에 등록
+//@Repository // 스프링 빈으로 등록. JPA 예외를 스프링 기반 예외로 등록
+////컴포넌트 스캔의 대상이 되어 자동으로 스프링 빈에 등록
+//public class MemberRepository {
+//
+//    @PersistenceContext // JPA 제공 표준 어노테이션. 스프링이 엔티티 매니저 만들어서 주입해줌
+//    private EntityManager em;
+//
+//    public void save(Member member){
+//        em.persist(member);
+//    }
+
+@Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
-    @PersistenceContext // JPA 제공 표준 어노테이션. 스프링이 엔티티 매니저 만들어서 주입해줌
-    private EntityManager em;
+    // @Autowired: 원래 스프링에서는 엔티티 매니저는 autowired로 안됨. 그러나 스프링부트데이터jpa에서는 가능
+    // 원래는 @PersistenceContext로 해줘야 함
+    private final EntityManager em;
 
     public void save(Member member){
         em.persist(member);
     }
+
     // jpa가 저장하는 로직
     // persist를 하면 영속성 컨텍스트에 member를 올리게 되는데, KEY는 id값이 됨. db PK랑 매핑한게 key가 됨
 
